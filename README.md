@@ -1,4 +1,4 @@
-# Full Stack QA Automation Project
+# Full Stack QA Automation Project and my first idea
 
 ## 📌 Project Overview
 The Full Stack QA Automation Project is a comprehensive software testing framework designed to automatically verify the correctness of every layer of a web application. This encompasses the User Interface (UI), Backend APIs, and the Database. By replacing manual testing with automated scripts, this framework ensures rapid feedback, higher test coverage, and early bug detection, significantly enhancing the overall quality and reliability of the software.
