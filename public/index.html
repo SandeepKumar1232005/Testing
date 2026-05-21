@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced QA Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-mesh"></div>
+    <main class="container">
+        <header>
+            <h1>QA Auto<span class="accent">Pilot</span></h1>
+            <p>Comprehensive Automated Verification Dashboard</p>
+        </header>
+
+        <nav class="tabs" style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 2rem;">
+            <button class="tab-btn active" data-tab="test-tab">Run New Test</button>
+            <button class="tab-btn" data-tab="dashboard-tab">Teacher Dashboard</button>
+        </nav>
+
+        <div id="test-tab" class="tab-content active">
+            <section class="input-section glass-panel">
+            <form id="test-form">
+                <div class="meta-inputs">
+                    <input type="text" id="student-name" placeholder="👤 Student Name" required autocomplete="off">
+                    <input type="text" id="project-name" placeholder="📁 Project Name" required autocomplete="off">
+                </div>
+                
+                <div class="input-group" style="margin-top: 1rem;">
+                    <input type="url" id="url-input" placeholder="🌐 https://yourwebsite.com" required autocomplete="off">
+                </div>
+
+                <div class="login-toggle-container">
+                    <span class="toggle-label">🔐 Login Required?</span>
+                    <label class="switch">
+                        <input type="checkbox" id="login-toggle">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+
+                <div class="login-fields" id="login-fields">
+                    <div class="input-group">
+                        <input type="text" id="login-username" placeholder="✉️ Username / Email" autocomplete="off">
+                        <input type="password" id="login-password" placeholder="🔑 Password" autocomplete="off">
+                    </div>
+                    <div class="input-group" style="margin-top: 1rem;">
+                        <input type="text" id="login-path" placeholder="Login Path (e.g. /login) - Optional" autocomplete="off">
+                        <input type="text" id="login-selector" placeholder="Button Selector (e.g. #submit) - Optional" autocomplete="off">
+                    </div>
+                    <p class="auth-warning">⚠️ Credentials are stored securely in-memory and destroyed after test execution.</p>
+                </div>
+
+                <button type="submit" id="run-btn" style="margin-top: 1.5rem; width: 100%;">
+                    <span>Run Full Suite 🚀</span>
+                    <div class="spinner" id="spinner"></div>
+                </button>
+            </form>
+        </section>
+
+        <section id="results-section" class="results-section glass-panel hidden">
+            <div id="pdf-content">
+                <div class="report-header">
+                    <h2>Test Report</h2>
+                    <div id="status-badge" class="badge"></div>
+                </div>
+                <div class="meta-display">
+                    <p><strong>Student:</strong> <span id="display-student"></span></p>
+                    <p><strong>Project:</strong> <span id="display-project"></span></p>
+                    <p><strong>Target URL:</strong> <a id="display-url" href="#" target="_blank"></a></p>
+                </div>
+
+                <div class="metrics-grid">
+                    <div class="metric-card" id="card-api">
+                        <h3>API Ping</h3>
+                        <div class="icon-status">⌛</div>
+                    </div>
+                    <div class="metric-card" id="card-load">
+                        <h3>UI Render & Auth</h3>
+                        <div class="icon-status">⌛</div>
+                    </div>
+                    <div class="metric-card" id="card-links">
+                        <h3>Broken Links</h3>
+                        <div class="icon-status">⌛</div>
+                    </div>
+                    <div class="metric-card" id="card-images">
+                        <h3>Image Assets</h3>
+                        <div class="icon-status">⌛</div>
+                    </div>
+                    <div class="metric-card" id="card-mobile">
+                        <h3>Mobile Layout</h3>
+                        <div class="icon-status">⌛</div>
+                    </div>
+                    <div class="metric-card" id="card-accessibility">
+                        <h3>Accessibility</h3>
+                        <div class="icon-status">⌛</div>
+                    </div>
+                    <div class="metric-card" id="card-forms">
+                        <h3>Forms & UX</h3>
+                        <div class="icon-status">⌛</div>
+                    </div>
+                    <div class="metric-card" id="card-security">
+                        <h3>Security Audit</h3>
+                        <div class="icon-status">⌛</div>
+                    </div>
+                    <div class="metric-card performance-card" id="card-speed">
+                        <h3>Load Speed</h3>
+                        <div class="speed-val">-- ms</div>
+                        <div class="badge-small">--</div>
+                    </div>
+                </div>
+                
+                <div id="details-container" class="details-container hidden">
+                    <h3>Detailed Issues Found:</h3>
+                    <ul id="details-list"></ul>
+                </div>
+                
+                <div id="ai-feedback-container" class="ai-feedback-container hidden" style="margin-top: 2rem; background: rgba(0, 242, 254, 0.05); padding: 2rem; border-radius: 12px; border: 1px solid rgba(0, 242, 254, 0.2);">
+                    <h2 style="margin-bottom: 1rem;"><span class="accent">🤖 AI Intelligence Report</span></h2>
+                    <p><strong>Predicted Website Type:</strong> <span id="ai-type"></span></p>
+                    <p style="margin-top: 1rem; font-style: italic; color: #ccc;">"<span id="ai-feedback"></span>"</p>
+                    
+                    <div style="display: flex; gap: 2rem; margin-top: 1.5rem; flex-wrap: wrap;">
+                        <div style="flex: 1; min-width: 300px;">
+                            <h3 style="color: var(--danger); margin-bottom: 0.5rem; font-size: 1rem;">🛠️ Critical Fixes</h3>
+                            <ul id="ai-fixes" style="padding-left: 1.2rem; color: #ddd; font-size: 0.95rem;"></ul>
+                        </div>
+                        <div style="flex: 1; min-width: 300px;">
+                            <h3 style="color: var(--accent-alt); margin-bottom: 0.5rem; font-size: 1rem;">✨ Missing Features</h3>
+                            <ul id="ai-features" style="padding-left: 1.2rem; color: #ddd; font-size: 0.95rem;"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" id="download-pdf-btn" class="pdf-btn">
+                <span>Download PDF Report 📥</span>
+            </button>
+        </section>
+        </div> <!-- End of test-tab -->
+
+        <div id="dashboard-tab" class="tab-content" style="display: none;">
+            <section class="dashboard-section glass-panel">
+                <h2 style="margin-bottom: 1.5rem; text-align: center;">Student Overview</h2>
+                <div class="table-container" style="overflow-x: auto;">
+                    <table class="dashboard-table">
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Project</th>
+                                <th>Grade</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="overview-body">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="chart-container" style="margin-top: 3rem;">
+                    <h2 style="margin-bottom: 1rem; text-align: center;">Historical Performance</h2>
+                    <select id="student-select" style="width: 100%; padding: 0.8rem; border-radius: 8px; margin-bottom: 1rem; background: rgba(0,0,0,0.3); color: white; border: 1px solid rgba(255,255,255,0.2);">
+                        <option value="">Select a student to view history...</option>
+                    </select>
+                    <canvas id="historyChart" style="max-height: 400px;"></canvas>
+                </div>
+            </section>
+        </div>
+    </main>
+    <script src="app.js"></script>
+</body>
+</html>

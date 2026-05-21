@@ -1,0 +1,8 @@
+node_modules/
+.env
+qa_platform.db
+results.json
+public/screenshots/
+test-results/
+playwright-report/
+blob-report/

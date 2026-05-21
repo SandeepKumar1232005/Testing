@@ -1,0 +1,26 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "description": "The Full Stack QA Automation Project is a comprehensive software testing framework designed to automatically verify the correctness of every layer of a web application. This encompasses the User Interface (UI), Backend APIs, and the Database. By replacing manual testing with automated scripts, this framework ensures rapid feedback, higher test coverage, and early bug detection, significantly enhancing the overall quality and reliability of the software.",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "dotenv": "^17.4.2"
+  },
+  "dependencies": {
+    "@google/genai": "^2.5.0",
+    "autocannon": "^8.0.0",
+    "better-sqlite3": "^12.10.0",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "lighthouse": "^12.8.2"
+  }
+}
